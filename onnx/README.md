@@ -4,7 +4,7 @@ This ONNX version of MODNet is provided by [@manthan3C273](https://github.com/ma
 Please note that the PyTorch version required for this ONNX export function is higher than the official MODNet code (torch==1.7.1 is recommended).
 
 You can try **MODNet - Image Matting Demo (ONNX version)** in [this Colab](https://colab.research.google.com/drive/1P3cWtg8fnmu9karZHYDAtmm1vj1rgA-f?usp=sharing).  
-You can also download the ONNX version of the official **Image Matting Model** from [Google Drive](https://drive.google.com/file/d/1uR-vsBQzp99i6PTtuUE9zvxmjAVn89X3/view?usp=sharing) or [Baidu Yun](链接: https://pan.baidu.com/s/1_12S4Y92P8nL-O9So8dHtw) with the exextraction code `flq6`.
+You can also download the ONNX version of the official **Image Matting Model** from [Google Drive](https://drive.google.com/file/d/1uR-vsBQzp99i6PTtuUE9zvxmjAVn89X3/view?usp=sharing) or [Baidu Yun](https://pan.baidu.com/s/1_12S4Y92P8nL-O9So8dHtw) with the exextraction code `flq6`.
 
 To export the ONNX version of MODNet (assuming you are currently in project root directory):
 1. Download the pre-trained **Image Matting Model** from this [link](https://drive.google.com/drive/folders/1umYmlCulvIFNaqPjwod1SayFmSRHziyR?usp=sharing) and put the model into the folder `MODNet/pretrained/`.
