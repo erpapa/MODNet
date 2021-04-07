@@ -52,4 +52,5 @@ if __name__ == '__main__':
     torch.onnx.export(
         modnet.module, dummy_input, args.output_path, export_params = True, 
         input_names = ['input'], output_names = ['output'], 
-        dynamic_axes = {'input': {0:'batch_size', 2:'height', 3:'width'}, 'output': {0: 'batch_size', 2: 'height', 3: 'width'}})
+        dynamic_axes = {'input': {0:'batch_size', 2:'height', 3:'width'}, 'output': {0: 'batch_size', 2: 'height', 3: 'width'}},
+        opset_version=11)

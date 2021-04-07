@@ -109,9 +109,9 @@ class LRBranch(nn.Module):
         enc2x, enc4x, enc32x = enc_features[0], enc_features[1], enc_features[4]
 
         enc32x = self.se_block(enc32x)
-        lr16x = F.interpolate(enc32x, scale_factor=2, mode='bilinear', align_corners=False)
+        lr16x = F.interpolate(enc32x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
         lr16x = self.conv_lr16x(lr16x)
-        lr8x = F.interpolate(lr16x, scale_factor=2, mode='bilinear', align_corners=False)
+        lr8x = F.interpolate(lr16x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
         lr8x = self.conv_lr8x(lr8x)
 
         return lr8x, [enc2x, enc4x] 
@@ -149,8 +149,8 @@ class HRBranch(nn.Module):
         )
 
     def forward(self, img, enc2x, enc4x, lr8x):
-        img2x = F.interpolate(img, scale_factor=1/2, mode='bilinear', align_corners=False)
-        img4x = F.interpolate(img, scale_factor=1/4, mode='bilinear', align_corners=False)
+        img2x = F.interpolate(img, scale_factor=0.5, mode='bilinear', align_corners=False, recompute_scale_factor=True)
+        img4x = F.interpolate(img, scale_factor=0.25, mode='bilinear', align_corners=False, recompute_scale_factor=True)
 
         enc2x = self.tohr_enc2x(enc2x)
         hr4x = self.conv_enc2x(torch.cat((img2x, enc2x), dim=1))
@@ -158,10 +158,10 @@ class HRBranch(nn.Module):
         enc4x = self.tohr_enc4x(enc4x)
         hr4x = self.conv_enc4x(torch.cat((hr4x, enc4x), dim=1))
 
-        lr4x = F.interpolate(lr8x, scale_factor=2, mode='bilinear', align_corners=False)
+        lr4x = F.interpolate(lr8x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
         hr4x = self.conv_hr4x(torch.cat((hr4x, lr4x, img4x), dim=1))
 
-        hr2x = F.interpolate(hr4x, scale_factor=2, mode='bilinear', align_corners=False)
+        hr2x = F.interpolate(hr4x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
         hr2x = self.conv_hr2x(torch.cat((hr2x, enc2x), dim=1))
 
         return hr2x
@@ -182,12 +182,12 @@ class FusionBranch(nn.Module):
         )
 
     def forward(self, img, lr8x, hr2x):
-        lr4x = F.interpolate(lr8x, scale_factor=2, mode='bilinear', align_corners=False)
+        lr4x = F.interpolate(lr8x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
         lr4x = self.conv_lr4x(lr4x)
-        lr2x = F.interpolate(lr4x, scale_factor=2, mode='bilinear', align_corners=False)
+        lr2x = F.interpolate(lr4x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
 
         f2x = self.conv_f2x(torch.cat((lr2x, hr2x), dim=1))
-        f = F.interpolate(f2x, scale_factor=2, mode='bilinear', align_corners=False)
+        f = F.interpolate(f2x, scale_factor=2.0, mode='bilinear', align_corners=False, recompute_scale_factor=True)
         f = self.conv_f(torch.cat((f, img), dim=1))
         pred_matte = torch.sigmoid(f)
 
